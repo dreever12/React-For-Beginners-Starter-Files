@@ -1,14 +1,11 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Fish } from './Fish.js'
 import { formatPrice, parsePrice } from '../helpers.js'
 
 const EditFishForm = props => {
-  const nameRef = useRef()
-  const priceRef = useRef()
-  const isAvailableRef = useRef()
-  const descRef = useRef()
-  const imageRef = useRef()
+  const { index, fish: { name, price, isAvailable, desc, image } } = props
+  const { deleteFish } = props
 
   const handleChange = event => {
     const { name, value } = event.currentTarget
@@ -19,19 +16,14 @@ const EditFishForm = props => {
       ...fish,
       [name]: name === 'price' ? parsePrice(value) : value
     }
+
     updateFish(index, updatedFish)
   }
 
-  const {
-    index,
-    fish: { name, price, isAvailable, desc, image }
-  } = props
-  const { deleteFish } = props
   return (
     <form className='fish-edit'>
       <input
         name='name'
-        ref={nameRef}
         type='text'
         placeholder='Name'
         value={name}
@@ -39,7 +31,6 @@ const EditFishForm = props => {
       />
       <input
         name='price'
-        ref={priceRef}
         type='text'
         placeholder='Price'
         value={formatPrice(price)}
@@ -47,7 +38,6 @@ const EditFishForm = props => {
       />
       <select
         name='isAvailable'
-        ref={isAvailableRef}
         value={isAvailable ? 'available' : 'unavailable'}
         onChange={handleChange}
       >
@@ -56,7 +46,6 @@ const EditFishForm = props => {
       </select>
       <textarea
         name='desc'
-        ref={descRef}
         type='text'
         placeholder='Description'
         value={desc}
@@ -64,7 +53,6 @@ const EditFishForm = props => {
       />
       <input
         name='image'
-        ref={imageRef}
         type='text'
         placeholder='Image'
         value={image}
