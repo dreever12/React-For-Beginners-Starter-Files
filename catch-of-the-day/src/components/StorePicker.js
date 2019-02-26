@@ -1,14 +1,11 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { getFunName } from '../helpers.js'
 
 const StorePicker = props => {
-  const storeInput = useRef()
+  const [storeName, setStoreName] = useState(getFunName())
 
   const goToStore = event => {
-    const {
-      current: { value: storeName }
-    } = storeInput
     const { history } = props
     event.preventDefault()
     history.push(`/store/${storeName}`)
@@ -22,11 +19,11 @@ const StorePicker = props => {
       <form className='store-selector' onSubmit={goToStore}>
         <h2> please enter a store </h2>
         <input
-          ref={storeInput}
+          onChange={({ target }) => setStoreName(target.value)}
           type='text'
           required
           placeholder='store name'
-          defaultValue={getFunName()}
+          value={storeName}
         />
         <button type='submit'>visit store ↣</button>
       </form>
